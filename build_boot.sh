@@ -1,0 +1,1 @@
+nasm src/boot/boot.asm -o bin/sec_boot.bin
