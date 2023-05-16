@@ -27,12 +27,18 @@
    mov bx, string
    call puts
 
+   mov bx, string_h
+   call puts
+   mov dx, 0x12ab
+   call print_hex
+
    jmp $                         ; infinite jump
 
-%include 'src/asm/string.s'
+%include 'src/asm/print_hex.s'
 
 string: db '===============================================================================', 0xa, 0xd, 0
 string2: db 'first ever output!', 0xa, 0xd, 'booting kernel...', 0xa, 0xd, 0
+string_h: db 'hex: ', 0
 
 
    times 510-($-$$) db 0         ; pads bytes until 510'th byte reached
