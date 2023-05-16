@@ -1,0 +1,2 @@
+# samos
+ educational operating system
