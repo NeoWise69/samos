@@ -8,7 +8,7 @@
 
    ;; set video mode
    mov ah, 0x00                  ; int 0x10 + ah=0x00 -> set video mode
-   mov al, 0x03                  ; set 80x25 mode
+   mov al, 0x03                  ; set mode
    int 0x10
 
    ;; change color palette
