@@ -18,8 +18,6 @@
    int 0x10
 
    ;; output strings
-   mov ah, 0x0e                  ; request BIOS ah to 0x0e (teletype output)
-
    mov bx, string
    call puts
    mov bx, string2
