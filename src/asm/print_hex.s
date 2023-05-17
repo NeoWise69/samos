@@ -20,15 +20,15 @@ print_hex:
 
 
         .mov_to_bx:
-        ; move ascii character into BX string
-        mov bx, __c_hex_string + 5  ; base address of __c_hex_string + length of string
-        sub bx, cx                  ; subtract counter
-        mov [bx], al                ; 
-        ror dx, 4                   ; rotate right by four(4) bits
-                                    ; (e.g: 0x12ab -> 0xb12a -> 0xab12 -> 0x2ab1 -> 0x12ab)
+            ; move ascii character into BX string
+            mov bx, __c_hex_string + 5  ; base address of __c_hex_string + length of string
+            sub bx, cx                  ; subtract counter
+            mov [bx], al                ; 
+            ror dx, 4                   ; rotate right by four(4) bits
+                                        ; (e.g: 0x12ab -> 0xb12a -> 0xab12 -> 0x2ab1 -> 0x12ab)
 
-        inc cx                      ; inc counter value
-        jmp .loop                   ; loop for the next hex digit in DX
+            inc cx                      ; inc counter value
+            jmp .loop                   ; loop for the next hex digit in DX
 
     .loop_end:
         mov bx, __c_hex_string

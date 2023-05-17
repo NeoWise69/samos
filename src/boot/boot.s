@@ -15,7 +15,12 @@
    mov ch, 0x00                        ; cylinder 0
    mov cl, 0x02                        ; starting sector to read from the disk
 
-   jc read_disk
+read_disk1:
+   mov ah, 0x02
+   mov al, 0x01
+   int 0x13
+
+   jc read_disk1
 
    ;;; READ KERNEL AT 0x2000
    ;; setup ES:BX registers to address kernel code
@@ -29,12 +34,13 @@
    mov ch, 0x00                        ; cylinder 0
    mov cl, 0x03                        ; starting sector to read from the disk
 
-read_disk:
+read_disk2:
    mov ah, 0x02
    mov al, 0x01
    int 0x13
 
-   jc read_disk
+
+   jc read_disk2
 
    ;; reset segment registers for RAM
    mov ax, 0x2000
@@ -44,10 +50,7 @@ read_disk:
    mov gs, ax
    mov ss, ax
 
-   jmp 0x2000:0x00
-
-%include 'src/asm/string.s'
-%include 'src/asm/disk_load.s'
+   jmp 0x2000:0x0
 
    ;; boot sector magic
    times 510-($-$$) db 0         ; pads bytes until 510'th byte reached
