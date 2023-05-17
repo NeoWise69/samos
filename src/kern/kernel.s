@@ -136,7 +136,7 @@ usage: db 'usage: ', 0xa, 0xd, 'f) filebrowser', 0x0a, 0x0d, 'r) reboot', 0xa, 0
 success: db 'success!', 0
 failure: db 'failure!', 0
 newline: db 0xa, 0xd, 0
-filebrowser_head: db '=== file/program ======== sector ===============================================', 0
+filebrowser_head: db ' file/program ======== sector ==================================================', 0
 cmd: db ''
 
     ;; sector padding magic
