@@ -27,7 +27,7 @@ print_hex:
         ror dx, 4                   ; rotate right by four(4) bits
                                     ; (e.g: 0x12ab -> 0xb12a -> 0xab12 -> 0x2ab1 -> 0x12ab)
 
-        add cx, 1                   ; inc counter value
+        inc cx                      ; inc counter value
         jmp .loop                   ; loop for the next hex digit in DX
 
     .loop_end:

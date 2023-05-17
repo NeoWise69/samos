@@ -21,7 +21,7 @@ puts:
       cmp al, 0                     ; print NULL-TERMINATED strings
       je .puts_end                  ; exit if we're at the end for a string, otherwise...
       int 0x10                      ; output character
-      add si, 1                     ; advance an address of bx
+      inc si                     ; advance an address of bx
       jmp .step
       .puts_end:
          popa
