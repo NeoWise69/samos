@@ -1,7 +1,6 @@
 ;;;
 ;;; outputs hexidecimal number from DX register
 ;;;
-%include 'src/asm/string.s'
 
 print_hex:
     pusha                           ; save all registers

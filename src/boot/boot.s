@@ -1,44 +1,40 @@
 ;;; pretty basic boot sector.
 
-;; BIOS interrupts:
-;; 0x10 - print ah
-
 ;; print AL character with BIOS interrupt
 [org 0x7c00]
 
-   ;; set video mode
-   mov ah, 0x00                  ; int 0x10 + ah=0x00 -> set video mode
-   mov al, 0x03                  ; set mode
-   int 0x10
+   ;; setup ES:BX registers to address kernel code
+   mov bx, 0x1000                   ; load sector to mem at 0x1000
+   mov es, bx                       ; es = 0x1000
+   mov bx, 0x0000                   ; es:bs = 0x1000:0
 
-   ;; change color palette (light blue)
-   mov ah, 0x0b
-   mov bh, 0x00
-   mov bl, 0x09
-   int 0x10
+   ;; setup DX register for disk loading
+   mov dh, 0x00                        ; head 0
+   mov dl, 0x00                        ; drive 0
+   mov ch, 0x00                        ; cylinder 0
+   mov cl, 0x02                        ; starting sector to read from the disk
 
-   ;; output strings
-   mov bx, string
-   call puts
-   mov bx, string2
-   call puts
-   mov bx, string
-   call puts
+read_disk:
+   mov ah, 0x02
+   mov al, 0x01
+   int 0x13
 
-   mov bx, string_h
-   call puts
-   mov dx, 0x12ab
-   call print_hex
+   jc read_disk
 
-   jmp $                         ; infinite jump
+   ;; reset segment registers for RAM
+   mov ax, 0x1000
+   mov ds, ax
+   mov es, ax
+   mov fs, ax
+   mov gs, ax
+   mov ss, ax
 
-%include 'src/asm/print_hex.s'
+   jmp 0x1000:0x00
 
-string: db '===============================================================================', 0xa, 0xd, 0
-string2: db 'first ever output!', 0xa, 0xd, 'booting kernel...', 0xa, 0xd, 0
-string_h: db 'hex: ', 0
+%include 'src/asm/string.s'
+%include 'src/asm/disk_load.s'
 
-
+   ;; boot sector magic
    times 510-($-$$) db 0         ; pads bytes until 510'th byte reached
    dw 0xaa55                     ; BIOS magic number for boot 'fingerprint'
 
